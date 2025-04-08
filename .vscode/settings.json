@@ -1,0 +1,22 @@
+{
+  "files.associations": {
+    "*.sqlbook": "sql",
+    "*.ndjson": "jsonl",
+    "*.dbclient-js": "javascript",
+    "*.ejs": "html",
+    ".fantomasignore": "ignore",
+    "vector": "cpp",
+    "chrono": "cpp",
+    "iostream": "cpp",
+    "algorithm": "cpp",
+    "climits": "cpp",
+    "random": "cpp",
+    "set": "cpp",
+    "sstream": "cpp",
+    "fstream": "cpp",
+    "cmath": "cpp",
+    "cfloat": "cpp",
+    "iomanip": "cpp",
+    "cstring": "cpp"
+  }
+}
