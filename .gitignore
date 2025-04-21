@@ -36,4 +36,6 @@ output*/
 *.out
 *.app
 
-results/
+# results/
+
+.venv

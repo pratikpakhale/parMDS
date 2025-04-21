@@ -334,5 +334,105 @@ def visualize_parMDS(parMDS_results, save_path=None, show_plot=False):
     
     plt.close()
 
+def visualize_nodes(vrp_file_path, show_plot=True, save_path=None, figsize=(10, 10), 
+                   node_size=50, node_color='blue', title=None):
+    """
+    Visualize only the nodes from a VRP problem file without showing any solution routes.
+    
+    Parameters:
+    -----------
+    vrp_file_path : str
+        Path to the .vrp file
+    show_plot : bool, default=True
+        Whether to display the plot
+    save_path : str, optional
+        If provided, save the plot to this path
+    figsize : tuple, default=(10, 10)
+        Figure size as (width, height) in inches
+    node_size : int, default=50
+        Size of the nodes in the plot
+    node_color : str, default='blue'
+        Color of the nodes
+    title : str, optional
+        Title for the plot. If None, uses the filename
+    """
+    # Extract the nodes from the VRP file
+    nodes = []
+    try:
+        with open(vrp_file_path, 'r') as f:
+            lines = f.readlines()
+            
+        # Find the NODE_COORD_SECTION
+        start_idx = -1
+        for i, line in enumerate(lines):
+            if line.strip() == "NODE_COORD_SECTION":
+                start_idx = i + 1
+                break
+        
+        if start_idx == -1:
+            raise ValueError("NODE_COORD_SECTION not found in the VRP file")
+        
+        # Read node coordinates
+        i = start_idx
+        while i < len(lines) and lines[i].strip() != "DEPOT_SECTION" and lines[i].strip() != "EOF":
+            parts = lines[i].strip().split()
+            if len(parts) >= 3:  # node_id, x, y
+                node_id = int(parts[0])
+                x = float(parts[1])
+                y = float(parts[2])
+                nodes.append((node_id, x, y))
+            i += 1
+            
+    except Exception as e:
+        print(f"Error reading VRP file: {e}")
+        return
+    
+    if not nodes:
+        print("No nodes found in the VRP file")
+        return
+    
+    # Create the plot
+    plt.figure(figsize=figsize)
+    
+    # Extract x, y coordinates and node IDs
+    node_ids = [n[0] for n in nodes]
+    xs = [n[1] for n in nodes]
+    ys = [n[2] for n in nodes]
+    
+    # Plot nodes
+    plt.scatter(xs, ys, s=node_size, c=node_color, marker='o', zorder=2)
+    
+    # Identify depot (usually node 1)
+    depot_idx = 0  # Default to first node as depot
+    plt.scatter(xs[depot_idx], ys[depot_idx], s=node_size*1.5, c='red', 
+                marker='s', zorder=3, label='Depot')
+    
+    # Set plot title and labels
+    if title is None:
+        title = f"Nodes from {os.path.basename(vrp_file_path)}"
+    plt.title(title)
+    plt.xlabel("X Coordinate")
+    plt.ylabel("Y Coordinate")
+    
+    # Equal aspect ratio
+    plt.axis('equal')
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.legend()
+    
+    # Save plot if requested
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        print(f"Node visualization saved to {save_path}")
+    
+    # Show plot if requested
+    if show_plot:
+        try:
+            plt.show()
+        except Exception as e:
+            print(f"Warning: Could not display node plot: {e}")
+    
+    plt.close()
+
 if __name__ == "__main__":
+    visualize_nodes('toy.vrp', show_plot=True, save_path='nodes_visualization.png')
     run_visualization()
