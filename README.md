@@ -11,7 +11,7 @@ The latex report and major project presentation can be found in `/docs` folder
 
 The `results` dir contains the outputs of the runs done on original parMDS.cpp (`openmp`), optimized opti/parMDS.cpp (`mst`) and cuda opti/parMDS.cu (`cuda`). Comparative analysis can be found in `results/plots`
 
-> Ignore : The `vrp` folder is just an attempt to visualize the customers and depot to intuitively understand the problem and how the routes are defined. The `.html` file will be an intereactive file to load (hopefully) thousands of nodes and can be interacted visually. The source for this is at `viz/vrp.py`
+> Ignore : The `viz` folder is just an attempt to visualize the customers and depot to intuitively understand the problem and how the routes are defined. The `.html` file will be an intereactive file to load (hopefully) thousands of nodes and can be interacted visually. The source for this is at `viz/vrp.py`
 
 ### Build and run all rounds.
 
